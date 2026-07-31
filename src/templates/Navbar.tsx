@@ -18,7 +18,7 @@ export const Navbar = () => {
         )}
       >
         <li>
-          <Link href="#map">찾아오시는길</Link>
+          <Link href="#map">오시는 길</Link>
         </li>
 
         <li>
