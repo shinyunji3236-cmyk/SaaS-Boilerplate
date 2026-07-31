@@ -1,32 +1,30 @@
 export const Features = () => {
   return (
     <div className="bg-slate-50 py-16 space-y-24">
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 space-y-24">
 
         {/* ==========================================
-            1. 지도 & 추천 코스 섹션
+            1. 오시는 길 & 지도 (id="map")
            ========================================== */}
-        <section id="map" className="scroll-mt-20">
+        <section id="map" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Course Guide</span>
+              <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Directions & Map</span>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1">
-                🗺️ 한눈에 보는 시장 지도 & 코스 추천
+                📍 오시는 길 & 추천 코스 지도
               </h2>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            {/* 카카오/네이버 지도 들어갈 대치 영역 */}
             <div className="lg:col-span-2 bg-gray-200 rounded-3xl min-h-[350px] overflow-hidden relative shadow-inner border border-gray-300 flex items-center justify-center">
               <div className="text-center p-6">
-                <div className="text-4xl mb-2">📍</div>
-                <p className="text-gray-700 font-bold text-lg">전통시장 대화형 지도 영역</p>
+                <div className="text-4xl mb-2">🗺️</div>
+                <p className="text-gray-700 font-bold text-lg">전통시장 지도 영역</p>
                 <p className="text-gray-500 text-sm mt-1">추후 Kakao Map API 또는 Google Maps가 연동될 위치입니다.</p>
               </div>
             </div>
 
-            {/* 추천 코스 카드 리스트 */}
             <div className="flex flex-col justify-between space-y-4">
               <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all">
                 <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 01</span>
@@ -47,9 +45,47 @@ export const Features = () => {
 
 
         {/* ==========================================
-            2. 시장 이야기 (점포 스토리) 섹션
+            2. 점포 안내 (id="stores")
            ========================================== */}
-        <section id="stories" className="scroll-mt-20">
+        <section id="stores" className="scroll-mt-24">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Store Directory</span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mt-1">
+                🏪 대표 점포 안내
+              </h2>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
+              <div className="text-3xl mb-2">🍞</div>
+              <h3 className="font-bold text-gray-900">떡 / 제과</h3>
+              <p className="text-xs text-gray-500 mt-1">가마솥 할머니 떡집 외 12곳</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
+              <div className="text-3xl mb-2">🥩</div>
+              <h3 className="font-bold text-gray-900">정육 / 수산</h3>
+              <p className="text-xs text-gray-500 mt-1">신선 축산 유통 외 8곳</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
+              <div className="text-3xl mb-2">🍎</div>
+              <h3 className="font-bold text-gray-900">청과 / 야채</h3>
+              <p className="text-xs text-gray-500 mt-1">수원 상회 외 15곳</p>
+            </div>
+            <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
+              <div className="text-3xl mb-2">☕</div>
+              <h3 className="font-bold text-gray-900">식당 / 카페</h3>
+              <p className="text-xs text-gray-500 mt-1">옛 방앗간 카페 외 10곳</p>
+            </div>
+          </div>
+        </section>
+
+
+        {/* ==========================================
+            3. 시장 이야기 (id="stories")
+           ========================================== */}
+        <section id="stories" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
               <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Market Stories</span>
@@ -60,7 +96,6 @@ export const Features = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* 카드 1 */}
             <div className="bg-white rounded-3xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all group cursor-pointer">
               <div className="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-300" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=600&q=80')" }} />
               <div className="p-6">
@@ -72,7 +107,6 @@ export const Features = () => {
               </div>
             </div>
 
-            {/* 카드 2 */}
             <div className="bg-white rounded-3xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all group cursor-pointer">
               <div className="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-300" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=600&q=80')" }} />
               <div className="p-6">
@@ -84,7 +118,6 @@ export const Features = () => {
               </div>
             </div>
 
-            {/* 카드 3 */}
             <div className="bg-white rounded-3xl overflow-hidden border border-gray-200 shadow-sm hover:shadow-lg transition-all group cursor-pointer">
               <div className="h-48 bg-cover bg-center group-hover:scale-105 transition-transform duration-300" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?auto=format&fit=crop&w=600&q=80')" }} />
               <div className="p-6">
@@ -100,9 +133,9 @@ export const Features = () => {
 
 
         {/* ==========================================
-            3. 오늘의 시장 (야시장/행사 정보) 섹션
+            4. 오늘의 시장 (id="today")
            ========================================== */}
-        <section id="today" className="scroll-mt-20">
+        <section id="today" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
               <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Events & News</span>
@@ -113,7 +146,6 @@ export const Features = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* 이벤트 카드 1 */}
             <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl p-6 text-white shadow-md flex flex-col justify-between">
               <div>
                 <span className="bg-black/30 text-white text-xs font-bold px-3 py-1 rounded-full border border-white/20">
@@ -130,7 +162,6 @@ export const Features = () => {
               </div>
             </div>
 
-            {/* 이벤트 카드 2 */}
             <div className="bg-gradient-to-r from-slate-800 to-slate-900 rounded-3xl p-6 text-white shadow-md flex flex-col justify-between">
               <div>
                 <span className="bg-emerald-500/80 text-white text-xs font-bold px-3 py-1 rounded-full">
