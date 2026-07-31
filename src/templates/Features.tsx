@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 export const Features = () => {
   return (
     <div className="bg-slate-50 py-16 space-y-24">
@@ -19,7 +17,7 @@ export const Features = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            {/* 카카오/네이버 지도 들어갈 카카오 맵 대치 영역 */}
+            {/* 카카오/네이버 지도 들어갈 대치 영역 */}
             <div className="lg:col-span-2 bg-gray-200 rounded-3xl min-h-[350px] overflow-hidden relative shadow-inner border border-gray-300 flex items-center justify-center">
               <div className="text-center p-6">
                 <div className="text-4xl mb-2">📍</div>
