@@ -19,7 +19,7 @@ export const Hero = () => {
             정성과 정이 가득한 전통시장
           </span>
           <h1 className="text-3xl font-extrabold sm:text-5xl leading-tight drop-shadow-md">
-            수원에서 만나는<br />
+            영등포에서 만나는<br />
             <span className="text-amber-400">정겨운 전통시장 이야기</span>
           </h1>
           <p className="mt-3 text-base sm:text-lg text-gray-200 drop-shadow">
