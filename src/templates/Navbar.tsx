@@ -1,14 +1,11 @@
 import { useTranslations } from 'next-intl';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import { buttonVariants } from '@/components/ui/buttonVariants';
 import { CenteredMenu } from '@/features/landing/CenteredMenu';
 import { Section } from '@/features/landing/Section';
 import { Link } from '@/libs/I18nNavigation';
 import { Logo } from './Logo';
 
 export const Navbar = () => {
-  const t = useTranslations('Navbar');
-
   return (
     <Section className="px-3 py-6">
       <CenteredMenu
@@ -18,35 +15,23 @@ export const Navbar = () => {
             <li>
               <LocaleSwitcher />
             </li>
-            <li className="mr-2.5 ml-1">
-              <Link href="/sign-in">{t('sign_in')}</Link>
-            </li>
-            <li>
-              <Link className={buttonVariants()} href="/sign-up">
-                {t('sign_up')}
-              </Link>
-            </li>
           </>
         )}
       >
         <li>
-          <Link href="/sign-up">{t('product')}</Link>
+          <Link href="#map">찾아오시는길</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('pricing')}</Link>
+          <Link href="#stores">점포안내</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('docs')}</Link>
+          <Link href="#story">시장이야기</Link>
         </li>
 
         <li>
-          <Link href="/sign-up">{t('blog')}</Link>
-        </li>
-
-        <li>
-          <Link href="/sign-up">{t('about')}</Link>
+          <Link href="#today">오늘의시장</Link>
         </li>
       </CenteredMenu>
     </Section>
