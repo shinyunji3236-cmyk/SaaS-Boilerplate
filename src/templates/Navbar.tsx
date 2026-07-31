@@ -18,20 +18,17 @@ export const Navbar = () => {
         )}
       >
         <li>
+          <Link href="#team">팀 소개</Link>
+        </li>
+
+        <li>
+          <Link href="#stores">영등포 시장 이야기</Link>
+        </li>
+
+        <li>
           <Link href="#map">오시는 길</Link>
         </li>
 
-        <li>
-          <Link href="#stores">점포안내</Link>
-        </li>
-
-        <li>
-          <Link href="#story">시장이야기</Link>
-        </li>
-
-        <li>
-          <Link href="#today">오늘의시장</Link>
-        </li>
       </CenteredMenu>
     </Section>
   );
