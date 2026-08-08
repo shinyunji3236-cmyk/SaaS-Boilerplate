@@ -11,19 +11,21 @@ export default function MapPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {/* 실제 지도 연동 영역 (카카오맵 영등포 전통시장 임베드 뷰) */}
+          {/* 실제 지도 연동 영역 (Google Maps Embed API 활용) */}
           <div className="lg:col-span-2 rounded-3xl min-h-[450px] overflow-hidden relative shadow-inner border border-gray-300 bg-white">
             <iframe
               title="영등포 전통시장 위치 지도"
-              src="https://map.kakao.com/?q=%EC%98%81%EB%93%b1%ED%8F%AC%EC%A0%84%ED%86%B5%EC%8B%9c%EC%9E%A5"
+              src="https://maps.google.com/maps?q=영등포전통시장&t=&z=15&ie=UTF8&iwloc=&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0, minHeight: '450px' }}
               allowFullScreen={false}
               tabIndex={0}
+              loading="lazy"
             />
           </div>
 
+          {/* 추천 코스 카드 영역 */}
           <div className="flex flex-col justify-between space-y-4">
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
               <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 01</span>
