@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
 
 declare global {
@@ -10,39 +10,73 @@ declare global {
 }
 
 export default function MapPage() {
-  const mapContainerRef = useRef<HTMLDivElement>(null);
+  // Statement 1: 지도 로딩 상태 및 에러 상태 관리 State 선언
+  const [mapLoaded, setMapLoaded] = useState(false);
 
-  // Statement 1: 카카오 지도 인스턴스를 안전하게 생성하는 초기화 함수 정의
-  const initMap = () => {
-    if (window.kakao && window.kakao.maps && mapContainerRef.current) {
+  // Statement 2: 카카오 지도 객체를 안전하게 DOM에 바인딩하는 함수 정의
+  const renderKakaoMap = () => {
+    if (typeof window === 'undefined') return;
+
+    if (window.kakao && window.kakao.maps) {
       window.kakao.maps.load(() => {
+        const container = document.getElementById('kakao-map-container');
+        if (!container) return;
+
+        // Statement 3: 영등포 전통시장 좌표 설정 (위도 37.5156, 경도 126.9073)
+        const marketLatLng = new window.kakao.maps.LatLng(37.5156, 126.9073);
         const options = {
-          center: new window.kakao.maps.LatLng(37.5156, 126.9073),
+          center: marketLatLng,
           level: 3,
         };
-        const map = new window.kakao.maps.Map(mapContainerRef.current, options);
+
+        // Statement 4: 지도 인스턴스 및 마커 생성
+        const map = new window.kakao.maps.Map(container, options);
         const marker = new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(37.5156, 126.9073),
+          position: marketLatLng,
         });
         marker.setMap(map);
+        
+        // Statement 5: 지도 크기 재조정 이벤트 트리거 (백색 렌더링 방지)
+        map.relayout();
+        setMapLoaded(true);
       });
     }
   };
 
+  // Statement 6: 스크립트 로드 타이밍 문제 방지를 위한 폴링(Polling) Effect
   useEffect(() => {
-    // Statement 2: 이미 window.kakao가 로드되어 있다면 지도를 초기화
+    // 이미 로드된 경우 즉시 렌더링
     if (window.kakao && window.kakao.maps) {
-      initMap();
+      renderKakaoMap();
+      return;
     }
+
+    // 100ms마다 window.kakao 객체가 생성되었는지 감시
+    const timer = setInterval(() => {
+      if (window.kakao && window.kakao.maps) {
+        renderKakaoMap();
+        clearInterval(timer);
+      }
+    }, 100);
+
+    // 5초 후 타이머 클리어
+    const timeout = setTimeout(() => {
+      clearInterval(timer);
+    }, 5000);
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(timeout);
+    };
   }, []);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
-      {/* Statement 3: SDK 스크립트 로드 완료 시 initMap 호출 */}
+      {/* Statement 7: 카카오 SDK 스크립트 주입 */}
       <Script
         src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4efb8c65236157929a6a6ce2ed634b77&autoload=false"
         strategy="afterInteractive"
-        onLoad={initMap}
+        onLoad={renderKakaoMap}
       />
 
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -55,9 +89,18 @@ export default function MapPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {/* Statement 4: id 대신 React ref를 통해 카카오맵이 그려질 DOM 요소를 직접 참조 */}
-          <div className="lg:col-span-2 rounded-3xl min-h-[450px] overflow-hidden relative shadow-inner border border-gray-300 bg-white">
-            <div ref={mapContainerRef} className="w-full h-[450px]" />
+          {/* Statement 8: 인라인 스타일로 높이 450px 강제 고정 및 로딩 스피너 레이어 추가 */}
+          <div className="lg:col-span-2 rounded-3xl min-h-[450px] overflow-hidden relative shadow-inner border border-gray-300 bg-gray-100">
+            {!mapLoaded && (
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-gray-100 text-gray-500">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mb-2"></div>
+                <p className="text-sm font-medium">카카오 지도를 불러오는 중입니다...</p>
+              </div>
+            )}
+            <div
+              id="kakao-map-container"
+              style={{ width: '100%', height: '450px', minHeight: '450px' }}
+            />
           </div>
 
           <div className="flex flex-col justify-between space-y-4">
