@@ -1,11 +1,71 @@
+'use client';
+
+import { useEffect } from 'react';
+import Script from 'next/script';
+
+// Statement 1: TypeScript 전역 Window 인터페이스에 kakao 속성을 선언하여 타입 에러를 방지
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 export const Features = () => {
+  // Statement 2: 컴포넌트 마운트 시점에 실행되는 Side-Effect 훅 선언
+  useEffect(() => {
+    const initMap = () => {
+      // Statement 3:전역 window 객체에 kakao 및 maps 라이브러리가 로드되었는지 검사
+      if (window.kakao && window.kakao.maps) {
+        // Statement 4: 카카오 지도 모듈을 비동기로 실행
+        window.kakao.maps.load(() => {
+          // Statement 5: 지도가 출력될 DOM 컨테이너 탐색
+          const container = document.getElementById('kakao-map-home');
+          const options = {
+            center: new window.kakao.maps.LatLng(37.5156, 126.9073),
+            level: 3,
+          };
+          // Statement 6: 카카오 지도 인스턴스 생성 및 영등포 전통시장 좌표 마커 바인딩
+          const map = new window.kakao.maps.Map(container, options);
+          const markerPosition = new window.kakao.maps.LatLng(37.5156, 126.9073);
+          const marker = new window.kakao.maps.Marker({
+            position: markerPosition,
+          });
+          marker.setMap(map);
+        });
+      }
+    };
+
+    if (window.kakao && window.kakao.maps) {
+      initMap();
+    }
+  }, []);
+
   return (
     <div className="bg-slate-50 py-16 space-y-24">
-      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 space-y-24">
+      {/* Statement 7: 카카오 지도 SDK 스크립트를 비동기로 로드하는 Next.js Script 컴포넌트 */}
+      <Script
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4efb8c65236157929a6a6ce2ed634b77&autoload=false"
+        strategy="afterInteractive"
+        onLoad={() => {
+          if (window.kakao && window.kakao.maps) {
+            window.kakao.maps.load(() => {
+              const container = document.getElementById('kakao-map-home');
+              const options = {
+                center: new window.kakao.maps.LatLng(37.5156, 126.9073),
+                level: 3,
+              };
+              const map = new window.kakao.maps.Map(container, options);
+              const marker = new window.kakao.maps.Marker({
+                position: new window.kakao.maps.LatLng(37.5156, 126.9073),
+              });
+              marker.setMap(map);
+            });
+          }
+        }}
+      />
 
-        {/* ==========================================
-            1. 오시는 길 & 지도 (id="map")
-           ========================================== */}
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 space-y-24">
+        {/* 1. 오시는 길 & 지도 섹션 */}
         <section id="map" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -17,36 +77,30 @@ export const Features = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-            <div className="lg:col-span-2 bg-gray-200 rounded-3xl min-h-[350px] overflow-hidden relative shadow-inner border border-gray-300 flex items-center justify-center">
-              <div className="text-center p-6">
-                <div className="text-4xl mb-2">🗺️</div>
-                <p className="text-gray-700 font-bold text-lg">전통시장 지도 영역</p>
-                <p className="text-gray-500 text-sm mt-1">추후 Kakao Map API 또는 Google Maps가 연동될 위치입니다.</p>
-              </div>
+            {/* Statement 8: 가짜 안내판을 제거하고 카카오 지도가 렌더링될 실제 DOM 컨테이너 지정 */}
+            <div className="lg:col-span-2 rounded-3xl min-h-[350px] overflow-hidden relative shadow-inner border border-gray-300 bg-white">
+              <div id="kakao-map-home" style={{ width: '100%', height: '350px' }} />
             </div>
 
             <div className="flex flex-col justify-between space-y-4">
               <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all">
                 <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 01</span>
                 <h3 className="font-bold text-lg text-gray-900 mt-2">입이 즐거운 먹거리 탐방 코스</h3>
-                <p className="text-sm text-gray-600 mt-1">유명 통닭거리 ➔ 수제 만두 ➔ 전통 꽈배기 ➔ 오미자 차</p>
+                <p className="text-sm text-gray-600 mt-1">영등포 명물 순대골목 ➔ 수제 만두 ➔ 전통 꽈배기 ➔ 시장 핫바</p>
                 <p className="text-xs text-amber-600 font-medium mt-3">⏱️ 예상 소요시간: 1시간 30분</p>
               </div>
 
               <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-all">
                 <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 02</span>
                 <h3 className="font-bold text-lg text-gray-900 mt-2">알뜰장보기 & 볼거리 코스</h3>
-                <p className="text-sm text-gray-600 mt-1">청과물 정육 코너 ➔ 방앗간 참기름 ➔ 전통 공예품 상점</p>
+                <p className="text-sm text-gray-600 mt-1">신선 청과 코너 ➔ 건어물 상가 ➔ 전통 의류 도소매 거리</p>
                 <p className="text-xs text-amber-600 font-medium mt-3">⏱️ 예상 소요시간: 2시간</p>
               </div>
             </div>
           </div>
         </section>
 
-
-        {/* ==========================================
-            2. 점포 안내 (id="stores")
-           ========================================== */}
+        {/* 2. 대표 점포 안내 섹션 */}
         <section id="stores" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -71,7 +125,7 @@ export const Features = () => {
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
               <div className="text-3xl mb-2">🍎</div>
               <h3 className="font-bold text-gray-900">청과 / 야채</h3>
-              <p className="text-xs text-gray-500 mt-1">수원 상회 외 15곳</p>
+              <p className="text-xs text-gray-500 mt-1">영등포 상회 외 15곳</p>
             </div>
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm text-center">
               <div className="text-3xl mb-2">☕</div>
@@ -81,10 +135,7 @@ export const Features = () => {
           </div>
         </section>
 
-
-        {/* ==========================================
-            3. 시장 이야기 (id="stories")
-           ========================================== */}
+        {/* 3. 시장 이야기 섹션 */}
         <section id="stories" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -131,10 +182,7 @@ export const Features = () => {
           </div>
         </section>
 
-
-        {/* ==========================================
-            4. 오늘의 시장 (id="today")
-           ========================================== */}
+        {/* 4. 오늘의 시장 섹션 */}
         <section id="today" className="scroll-mt-24">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -179,7 +227,6 @@ export const Features = () => {
             </div>
           </div>
         </section>
-
       </div>
     </div>
   );
