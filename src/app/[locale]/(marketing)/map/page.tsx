@@ -1,9 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
 
-// TypeScript 전역 Window 인터페이스에 kakao 속성 추가 선언
 declare global {
   interface Window {
     kakao: any;
@@ -11,51 +10,38 @@ declare global {
 }
 
 export default function MapPage() {
-  useEffect(() => {
-    const initMap = () => {
-      if (window.kakao && window.kakao.maps) {
-        window.kakao.maps.load(() => {
-          const container = document.getElementById('kakao-map');
-          const options = {
-            center: new window.kakao.maps.LatLng(37.5156, 126.9073),
-            level: 3,
-          };
-          const map = new window.kakao.maps.Map(container, options);
-          const markerPosition = new window.kakao.maps.LatLng(37.5156, 126.9073);
-          const marker = new window.kakao.maps.Marker({
-            position: markerPosition,
-          });
-          marker.setMap(map);
-        });
-      }
-    };
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  const initMap = () => {
     if (window.kakao && window.kakao.maps) {
+      window.kakao.maps.load(() => {
+        const container = document.getElementById('kakao-map');
+        if (!container) return;
+        const options = {
+          center: new window.kakao.maps.LatLng(37.5156, 126.9073),
+          level: 3,
+        };
+        const map = new window.kakao.maps.Map(container, options);
+        const marker = new window.kakao.maps.Marker({
+          position: new window.kakao.maps.LatLng(37.5156, 126.9073),
+        });
+        marker.setMap(map);
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isLoaded) {
       initMap();
     }
-  }, []);
+  }, [isLoaded]);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
       <Script
         src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4efb8c65236157929a6a6ce2ed634b77&autoload=false"
         strategy="afterInteractive"
-        onLoad={() => {
-          if (window.kakao && window.kakao.maps) {
-            window.kakao.maps.load(() => {
-              const container = document.getElementById('kakao-map');
-              const options = {
-                center: new window.kakao.maps.LatLng(37.5156, 126.9073),
-                level: 3,
-              };
-              const map = new window.kakao.maps.Map(container, options);
-              const marker = new window.kakao.maps.Marker({
-                position: new window.kakao.maps.LatLng(37.5156, 126.9073),
-              });
-              marker.setMap(map);
-            });
-          }
-        }}
+        onLoad={() => setIsLoaded(true)}
       />
 
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
