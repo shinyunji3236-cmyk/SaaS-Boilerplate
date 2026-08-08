@@ -6,7 +6,7 @@ export const Navbar = () => {
       <div className="mx-auto flex h-16 max-w-screen-xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* 로고 영역 (클릭 시 메인 홈으로 이동) */}
         <Link href="/" className="flex items-center gap-2 text-xl font-black text-gray-900">
-          <span className="text-amber-500"></span> 영등 전통시장
+          <span className="text-amber-500"></span> 영등포 전통시장
         </Link>
 
         {/* 상단 탭 내비게이션 (독립된 페이지 경로로 이동) */}
