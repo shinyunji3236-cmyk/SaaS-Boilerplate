@@ -4,22 +4,26 @@ import { useEffect } from 'react';
 import Script from 'next/script';
 
 export default function MapPage() {
+  // Statement 1: 컴포넌트 마운트 시 카카오맵 초기화 로직을 수행하는 Side-Effect 훅 선언
   useEffect(() => {
-    // 카카오맵 스크립트 로드 완료 후 실행될 함수
     const initMap = () => {
+      // Statement 2: window 객체에 kakao SDK가 정상 로드되었는지 조건문 검사
       if (window.kakao && window.kakao.maps) {
+        // Statement 3: 카카오맵 API 객체를 비동기로 로딩
         window.kakao.maps.load(() => {
+          // Statement 4: 지도가 들어갈 DOM 엘리먼트 가져오기
           const container = document.getElementById('kakao-map');
+
+          // Statement 5: 영등포 전통시장 좌표(위도, 경도) 및 확대 레벨 옵션 설정
           const options = {
-            // 영등포 전통시장 대략적인 위도, 경도 좌표
             center: new window.kakao.maps.LatLng(37.5156, 126.9073),
-            level: 3, // 확대 레벨
+            level: 3,
           };
 
-          // 지도 생성
+          // Statement 6: 지도를 컨테이너에 생성 및 인스턴스화
           const map = new window.kakao.maps.Map(container, options);
 
-          // 지도 중심에 마커 표시
+          // Statement 7: 시장 위치를 가리키는 마커 생성 및 지도에 핀 꽂기
           const markerPosition = new window.kakao.maps.LatLng(37.5156, 126.9073);
           const marker = new window.kakao.maps.Marker({
             position: markerPosition,
@@ -29,7 +33,6 @@ export default function MapPage() {
       }
     };
 
-    // 이미 스크립트가 로드되어 있는 경우 바로 실행
     if (window.kakao && window.kakao.maps) {
       initMap();
     }
@@ -37,9 +40,9 @@ export default function MapPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
-      {4efb8c65236157929a6a6ce2ed634b77}
+      {/* Statement 8: Next.js Script 컴포넌트를 통해 카카오 SDK 비동기 호출 (appkey 구문에 API 키 적용) */}
       <Script
-        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_JAVASCRIPT_KEY&autoload=false"
+        src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4efb8c65236157929a6a6ce2ed634b77&autoload=false"
         strategy="afterInteractive"
         onLoad={() => {
           if (window.kakao && window.kakao.maps) {
@@ -59,6 +62,7 @@ export default function MapPage() {
         }}
       />
 
+      {/* Statement 9: 화면 레이아웃 및 카카오맵 지도가 렌더링될 DOM 영역 정의 */}
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Directions & Map</span>
@@ -69,12 +73,10 @@ export default function MapPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {/* 실제 카카오맵이 렌더링될 DOM 컨테이너 영역 */}
           <div className="lg:col-span-2 rounded-3xl min-h-[450px] overflow-hidden relative shadow-inner border border-gray-300 bg-white">
             <div id="kakao-map" style={{ width: '100%', height: '450px' }} />
           </div>
 
-          {/* 추천 코스 카드 영역 */}
           <div className="flex flex-col justify-between space-y-4">
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
               <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 01</span>
@@ -84,7 +86,7 @@ export default function MapPage() {
             </div>
 
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
-              <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코s 02</span>
+              <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 02</span>
               <h3 className="font-bold text-xl text-gray-900 mt-3">알뜰장보기 & 볼거리 코스</h3>
               <p className="text-sm text-gray-600 mt-2">신선 청과 코너 ➔ 건어물 상가 ➔ 전통 의류 도소매 거리</p>
               <p className="text-xs text-amber-600 font-medium mt-4">⏱️ 예상 소요시간: 2시간</p>
