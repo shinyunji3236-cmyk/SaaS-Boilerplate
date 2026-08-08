@@ -3,41 +3,33 @@
 import { useEffect } from 'react';
 import Script from 'next/script';
 
+// TypeScript 전역 Window 인터페이스에 kakao 속성 추가 선언
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 export default function MapPage() {
-  // Statement 1: 브라우저에 화면이 그려진 직후 실행할 지도 초기화 Side-Effect 선언
   useEffect(() => {
     const initMap = () => {
-      // Statement 2: 카카오 지도 SDK 객체가 전역 window에 불러와졌는지 조건문으로 검사
       if (window.kakao && window.kakao.maps) {
-        // Statement 3: 카카오 지도 API 모듈을 비동기로 실행
         window.kakao.maps.load(() => {
-          // Statement 4: 지도가 렌더링될 DOM 엘리먼트('kakao-map') 탐색
           const container = document.getElementById('kakao-map');
-
-          // Statement 5: 지도 중심 좌표(영등포 전통시장 위도 37.5156, 경도 126.9073) 및 줌 레벨 설정 객체 생성
           const options = {
             center: new window.kakao.maps.LatLng(37.5156, 126.9073),
             level: 3,
           };
-
-          // Statement 6: 탐색한 DOM 컨테이너에 카카오 지도 인스턴스 생성
           const map = new window.kakao.maps.Map(container, options);
-
-          // Statement 7: 시장 위치를 나타낼 좌표 객체 생성
           const markerPosition = new window.kakao.maps.LatLng(37.5156, 126.9073);
-
-          // Statement 8: 지도 위에 꽂을 마커 객체 생성
           const marker = new window.kakao.maps.Marker({
             position: markerPosition,
           });
-
-          // Statement 9: 생성된 마커를 지도 위에 레이어로 바인딩하여 바깥으로 출력
           marker.setMap(map);
         });
       }
     };
 
-    // Statement 10: 스크립트가 이미 로드된 상태라면 지도 초기화 함수 즉시 실행
     if (window.kakao && window.kakao.maps) {
       initMap();
     }
@@ -45,12 +37,10 @@ export default function MapPage() {
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
-      {/* Statement 11: 40번 줄의 구문 오류를 삭제하고 Script 태그의 appkey 파라미터 위치에 API 키 직접 주입 */}
       <Script
         src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4efb8c65236157929a6a6ce2ed634b77&autoload=false"
         strategy="afterInteractive"
         onLoad={() => {
-          // Statement 12: 외부 스크립트 로드 완료 시 콜백 내부에서 지도 객체 초기화 수행
           if (window.kakao && window.kakao.maps) {
             window.kakao.maps.load(() => {
               const container = document.getElementById('kakao-map');
@@ -68,7 +58,6 @@ export default function MapPage() {
         }}
       />
 
-      {/* Statement 13: 메인 안내 레이아웃 트리를 화면에 반환 */}
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
           <span className="text-amber-600 font-bold text-sm tracking-wider uppercase">Directions & Map</span>
@@ -79,12 +68,10 @@ export default function MapPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {/* Statement 14: 카카오 지도 객체가 그려지는 id="kakao-map" 영역 정의 */}
           <div className="lg:col-span-2 rounded-3xl min-h-[450px] overflow-hidden relative shadow-inner border border-gray-300 bg-white">
             <div id="kakao-map" style={{ width: '100%', height: '450px' }} />
           </div>
 
-          {/* Statement 15: 추천 코스 정보를 보여주는 우측 카드 레이아웃 정의 */}
           <div className="flex flex-col justify-between space-y-4">
             <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
               <span className="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">코스 01</span>
