@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Script from 'next/script';
 
 declare global {
@@ -10,18 +10,17 @@ declare global {
 }
 
 export default function MapPage() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
+  // Statement 1: 카카오 지도 인스턴스를 안전하게 생성하는 초기화 함수 정의
   const initMap = () => {
-    if (window.kakao && window.kakao.maps) {
+    if (window.kakao && window.kakao.maps && mapContainerRef.current) {
       window.kakao.maps.load(() => {
-        const container = document.getElementById('kakao-map');
-        if (!container) return;
         const options = {
           center: new window.kakao.maps.LatLng(37.5156, 126.9073),
           level: 3,
         };
-        const map = new window.kakao.maps.Map(container, options);
+        const map = new window.kakao.maps.Map(mapContainerRef.current, options);
         const marker = new window.kakao.maps.Marker({
           position: new window.kakao.maps.LatLng(37.5156, 126.9073),
         });
@@ -31,17 +30,19 @@ export default function MapPage() {
   };
 
   useEffect(() => {
-    if (isLoaded) {
+    // Statement 2: 이미 window.kakao가 로드되어 있다면 지도를 초기화
+    if (window.kakao && window.kakao.maps) {
       initMap();
     }
-  }, [isLoaded]);
+  }, []);
 
   return (
     <div className="bg-slate-50 min-h-screen py-12">
+      {/* Statement 3: SDK 스크립트 로드 완료 시 initMap 호출 */}
       <Script
         src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=4efb8c65236157929a6a6ce2ed634b77&autoload=false"
         strategy="afterInteractive"
-        onLoad={() => setIsLoaded(true)}
+        onLoad={initMap}
       />
 
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -54,8 +55,9 @@ export default function MapPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          {/* Statement 4: id 대신 React ref를 통해 카카오맵이 그려질 DOM 요소를 직접 참조 */}
           <div className="lg:col-span-2 rounded-3xl min-h-[450px] overflow-hidden relative shadow-inner border border-gray-300 bg-white">
-            <div id="kakao-map" style={{ width: '100%', height: '450px' }} />
+            <div ref={mapContainerRef} className="w-full h-[450px]" />
           </div>
 
           <div className="flex flex-col justify-between space-y-4">
